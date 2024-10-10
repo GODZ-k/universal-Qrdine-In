@@ -1,10 +1,11 @@
 
 
 import {Redis} from "ioredis";
+import { redis_url } from "../config/appConfig.js";
 
 
 
-const client = new Redis()
+const client = new Redis(redis_url)
 
 export class Cache {
 
