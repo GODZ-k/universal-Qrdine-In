@@ -3,6 +3,7 @@ import { DatabaseName, MongoConnectionString } from './appConfig.js'
 
 // mongooose database connection ----
 
+
 const connectMongo = async ()=>{
     await mongoose.connect(`${MongoConnectionString}/${DatabaseName}`).then((res)=>{
         console.log(`database has been connected on host ${res.connection.host}`)
