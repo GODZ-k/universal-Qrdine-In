@@ -27,8 +27,7 @@ jobs:
         cache: 'npm'
     - name: Install dependencies
       run: npm install
+      
     - name: Deploy to VPS
       run: |
-        ssh root@194.238.19.145 'cd /var/www/universal-Qrdine-In && git pull origin main && npm install && pm2 restart nodeapp'
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}  # Add your private key to GitHub secrets
+        ssh -i ${{ secrets.SSH_PRIVATE_KEY }} root@194.238.19.145 'cd /var/www/universal-Qrdine-In && git pull origin main && npm install && pm2 restart nodeapp'
