@@ -17,10 +17,10 @@ class RestaurantService{
         return await Restaurant.findOne({baseUrl:data})
     }
 
-    async getRestaurantByRestaurtantId(data){
-        return await Restaurant.findOne({restaurantId:data})
+    async getSingleRestaurant(data){
+        // return await Restaurant.findOne({restaurantId:data})
+        return await Restaurant.findOne({ $or:[{baseUrl:data},{restaurantId:data}]})
     }
-    
 }
 
 

@@ -73,7 +73,7 @@ const getRestaurant = async(req,res,next)=>{
 
         if(!inputData){
             return res.status(404).json(
-                new ApiResponse(404,'','',"All fileds must be required",false)
+                new ApiResponse(false,'',"All fileds must be required")
             )
         }
         
@@ -81,11 +81,27 @@ const getRestaurant = async(req,res,next)=>{
 
         if(!payload.success){
             return res.status(400).json(
-                new ApiResponse(400,'','','Please enter valid input', false)
+                new ApiResponse(false,'','Please enter valid input')
             )
         }
 
-        const { restaurantId } = payload.data
+        const { restaurantId , restaurantUrl } = payload.data
+
+        if(restaurantUrl){
+
+            const restaurant = await restaurantService.getSingleRestaurant(restaurantUrl.toLowerCase())
+
+            if(!restaurant){
+                return res.status(404).json(
+                    new ApiResponse(false,'','Restaurant not found')
+                )
+            }
+
+            return res.status(200).json(
+                new ApiResponse(true,restaurant,'Restaurant Found successfully')
+            )
+
+        }
 
         const cacheKey = `restaurant_${restaurantId.toUpperCase()}`;
 
@@ -93,35 +109,34 @@ const getRestaurant = async(req,res,next)=>{
 
         if(cachedRestaurant){
             return res.status(200).json(
-                new ApiResponse(200,cachedRestaurant,'Restaurant Found successfully', true)
+                new ApiResponse(true,cachedRestaurant,'Restaurant Found successfully')
             )
         }
 
-        const restaurant = await restaurantService.getRestaurantByRestaurtantId(restaurantId.toUpperCase())
+        const restaurant = await restaurantService.getSingleRestaurant(restaurantId.toUpperCase())
 
         if(!restaurant){
             return res.status(404).json(
-                new ApiResponse(404,'','Restaurant not found', false)
+                new ApiResponse(false,'','Restaurant not found')
             )
         }
 
         if(!restaurant.isActive){
             return res.status(422).json(
-                new ApiResponse(422,'','Restaurant is not active', false)
+                new ApiResponse(false,'','Restaurant is not active')
             )
         }
 
         await cache.setAndExpire(cacheKey,restaurant)
 
         return res.status(200).json(
-            new ApiResponse(200,restaurant,'Restaurant Found successfully', true)
+            new ApiResponse(true,restaurant,'Restaurant Found successfully')
         )
         
     } catch (error) {
         next(error)
     }
 }
-
 
 const getAllRestaurants = async(req,res,next)=>{
     try {

@@ -56,7 +56,7 @@ export class Cache {
 }
 
 client.on('connect', () => {
-    console.log('Connected to Redis successfully!');
+    console.log(`Connected to Redis successfully!`);
 });
 
 client.on('error', (err) => {

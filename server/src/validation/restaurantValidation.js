@@ -11,7 +11,8 @@ const createRestaurantSchema = z.object({
 })
 
 const getRestaurantByIdSchema = z.object({
-    restaurantId:z.string(),
+    restaurantId:z.string().optional(),
+    restaurantUrl:z.string().optional()
 })
 
 export {
