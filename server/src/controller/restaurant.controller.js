@@ -138,6 +138,7 @@ const getRestaurant = async(req,res,next)=>{
     }
 }
 
+
 const getAllRestaurants = async(req,res,next)=>{
     try {
         const cacheKey = 'restaurants'
