@@ -20,3 +20,5 @@ jobs:
     - run: |
         touch .env
         echo "${{ secrets.PRODUCTION_SEC}}" > .env
+    - run: pm2 restart nodeapp
+    - run: sudo systemctl reload nginx
