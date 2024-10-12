@@ -1,7 +1,7 @@
 
 
 import {Redis} from "ioredis";
-import {   redis_port, redis_host, redis_password } from "../config/appConfig.js";
+import {   redis_port, redis_host, redis_password, redis_cache_expiry } from "../config/appConfig.js";
 
 
 
@@ -13,7 +13,7 @@ const client = new Redis({
 
 export class Cache {
 
-    constructor(expiredAt = 1000) {
+    constructor(expiredAt = redis_cache_expiry) {
         this.expiredAt = expiredAt; // Default expiration is 600 seconds (can be overridden)
       }
     
